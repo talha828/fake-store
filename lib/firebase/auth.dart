@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fake_store/view/dashboard_screen/dashboard_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,58 +18,40 @@ class Auth {
     required double width,
     var setLoading,
   }) async {
-      bool isValidEmail = _validateEmail(email, width);
-      bool isValidPassword = _validatePassword(password, width);
-      bool isMatchingPassword =
-          _validateMatchingPassword(password, confirmPassword, width);
+    bool isValidEmail = _validateEmail(email, width);
+    bool isValidPassword = _validatePassword(password, width);
+    bool isMatchingPassword =
+        _validateMatchingPassword(password, confirmPassword, width);
+
+    if (isValidEmail && isValidPassword && isMatchingPassword) {
+      setLoading(true);
+        FirebaseApp secondaryApp = Firebase.app('Fake Store');
+        FirebaseAuth auth = FirebaseAuth.instanceFor(app: secondaryApp);
+        UserCredential userCredential = await auth
+            .createUserWithEmailAndPassword(
+          email: email,
+          password: password,
+        )
+            .catchError((e) async {
+
+              Get.snackbar(
+                    "Authentication Failed",
+                    e.toString(),
+                    duration: const Duration(seconds: 5),
+                    snackPosition: SnackPosition.BOTTOM,
+                    margin: EdgeInsets.symmetric(
+                        vertical: width * 0.05, horizontal: width * 0.05),
+                  );
+            });
 
 
-      if (isValidEmail &&
-          isValidPassword &&
-          isMatchingPassword ) {
-        setLoading(true);
-        try {
-          FirebaseAuth auth = FirebaseAuth.instance;
-          UserCredential userCredential = await auth
-              .createUserWithEmailAndPassword(
-            email: email,
-            password: password,
-          ).catchError((e) {
-            Get.snackbar(
-              "Authentication Failed",
-              e.toString(),
-              duration: const Duration(seconds: 5),
-              snackPosition: SnackPosition.BOTTOM,
-              margin: EdgeInsets.symmetric(
-                  vertical: width * 0.05, horizontal: width * 0.05),
-            );
-          });
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString("email", email);
+        prefs.setString("password", password);
+        setLoading(false);
+        Get.to(const DashboardScreen());
 
-          var database = FirebaseFirestore.instance.collection("users");
-          await database.doc().set({
-            "name": name,
-            "email": email,
-            "password": password,
-          });
-
-          setLoading(false);
-          final prefs = await SharedPreferences.getInstance();
-          prefs.setString("email", email);
-          prefs.setString("password", password);
-          Get.to(const DashboardScreen());
-        } catch (e) {
-          setLoading(false);
-          print(e);
-          Get.snackbar(
-            "Something went wrong",
-            e.toString(),
-            duration: const Duration(seconds: 5),
-            snackPosition: SnackPosition.BOTTOM,
-            margin: EdgeInsets.symmetric(
-                vertical: width * 0.05, horizontal: width * 0.05),
-          );
-        }
-      }
+    }
   }
 
   static login({
@@ -83,11 +66,14 @@ class Auth {
     if (isValidEmail && isValidPassword) {
       setLoading(true);
       try {
-        FirebaseAuth auth = FirebaseAuth.instance;
-        UserCredential userCredential = await auth.signInWithEmailAndPassword(
+        FirebaseApp secondaryApp = Firebase.app('Fake Store');
+        FirebaseAuth auth = FirebaseAuth.instanceFor(app: secondaryApp);
+        UserCredential userCredential = await auth
+            .signInWithEmailAndPassword(
           email: email,
           password: password,
-        ).catchError((e) {
+        )
+            .catchError((e) {
           Get.snackbar(
             "Authentication Failed",
             e.toString(),

@@ -3,6 +3,7 @@ import 'package:fake_store/controller/cart_controller.dart';
 import 'package:fake_store/controller/product_controller.dart';
 import 'package:fake_store/generated/assets.dart';
 import 'package:fake_store/model/product_model.dart';
+import 'package:fake_store/view/edit_profile_screen/edit_profile_screen.dart';
 import 'package:fake_store/view/favorite_screen/favorite_screen.dart';
 import 'package:fake_store/view/login_screen/login_screen.dart';
 import 'package:fake_store/widgets/product_card_view.dart';
@@ -70,8 +71,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ListTile(
               leading: const Icon(Icons.edit),
               title: const Text('Edit Profile'),
-              onTap: () async {
-                },
+              onTap: () =>Get.to(const EditProfileScreen())
             ),
 
             ListTile(

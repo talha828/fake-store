@@ -47,6 +47,7 @@ class Auth {
 
         final prefs = await SharedPreferences.getInstance();
         prefs.setString("email", email);
+        prefs.setString("name", name);
         prefs.setString("password", password);
         setLoading(false);
         Get.to(const DashboardScreen());

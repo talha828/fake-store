@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "972122140698",
+    "project_id": "fake-store-1f625",
+    "storage_bucket": "fake-store-1f625.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:972122140698:android:fd48f8c6875a463938e1a3",
+        "android_client_info": {
+          "package_name": "com.talhaiqbal.fake_store.fake_store"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2UGPoQvAq9Fbq86Tj12GUn0BjpDmJOuc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

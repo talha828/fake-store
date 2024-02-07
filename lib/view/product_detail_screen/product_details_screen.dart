@@ -1,4 +1,5 @@
 import 'package:fake_store/constant/constant.dart';
+import 'package:fake_store/controller/cart_controller.dart';
 import 'package:fake_store/model/product_model.dart';
 import 'package:fake_store/widgets/fake_button.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,8 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
+  final CartController cartController = Get.put(CartController());
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -83,7 +86,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               SizedBox(
                 height: width * 0.2,
               ),
-              FakeButton(onTap: (){}, width: width, title:"Buy Now"),
+              FakeButton(onTap: (){
+                cartController.addToCart(widget.product);
+                }, width: width, title:"Favorites"),
             ],
           ),
         ),

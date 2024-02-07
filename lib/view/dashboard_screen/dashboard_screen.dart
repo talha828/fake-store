@@ -3,6 +3,7 @@ import 'package:fake_store/controller/cart_controller.dart';
 import 'package:fake_store/controller/product_controller.dart';
 import 'package:fake_store/generated/assets.dart';
 import 'package:fake_store/model/product_model.dart';
+import 'package:fake_store/view/favorite_screen/favorite_screen.dart';
 import 'package:fake_store/view/login_screen/login_screen.dart';
 import 'package:fake_store/widgets/product_card_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -61,7 +62,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
             ),
-
+            ListTile(
+              leading: const Icon(Icons.favorite),
+              title: const Text('Favorite Product'),
+              onTap: ()=>Get.to(const FavoriteScreen())
+            ),
+            ListTile(
+              leading: const Icon(Icons.edit),
+              title: const Text('Edit Profile'),
+              onTap: () async {
+                },
+            ),
 
             ListTile(
               leading: const Icon(Icons.logout),
@@ -69,9 +80,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               onTap: () async {
                 SharedPreferences prefer =
                 await SharedPreferences.getInstance();
-                prefer.setString("username", "null");
+                prefer.setString("email", "null");
                 prefer.setString("password", "null");
-                prefer.setBool("logout", true);
                 Get.to(const LoginScreen());
               },
             ),

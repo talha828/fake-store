@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:fake_store/constant/constant.dart';
-import 'package:fake_store/controller/product_controller.dart';
 import 'package:fake_store/generated/assets.dart';
-import 'package:fake_store/view/dashboard_screen/dashboard_screen.dart';
 import 'package:fake_store/view/splash_screen/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +38,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: createMaterialColor(themeColorDart),
         useMaterial3: true,
       ),
-      home: const DashboardScreen(),
+      home: const SplashScreen(),
     );
   }
 

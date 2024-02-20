@@ -1,9 +1,6 @@
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fake_store/main.dart';
 import 'package:fake_store/view/dashboard_screen/dashboard_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,15 +15,13 @@ class Auth {
     required double width,
     var setLoading,
   }) async {
-    bool isValidEmail = _validateEmail(email, width);
+    bool isValidEmail = validateEmail(email, width);
     bool isValidPassword = _validatePassword(password, width);
     bool isMatchingPassword =
         _validateMatchingPassword(password, confirmPassword, width);
 
     if (isValidEmail && isValidPassword && isMatchingPassword) {
       setLoading(true);
-        FirebaseApp secondaryApp = Firebase.app('Fake Store');
-        FirebaseAuth auth = FirebaseAuth.instanceFor(app: secondaryApp);
         UserCredential userCredential = await auth
             .createUserWithEmailAndPassword(
           email: email,
@@ -61,14 +56,12 @@ class Auth {
     var setLoading,
     required double width,
   }) async {
-    bool isValidEmail = _validateEmail(email, width);
+    bool isValidEmail = validateEmail(email, width);
     bool isValidPassword = _validatePassword(password, width);
 
     if (isValidEmail && isValidPassword) {
       setLoading(true);
       try {
-        FirebaseApp secondaryApp = Firebase.app('Fake Store');
-        FirebaseAuth auth = FirebaseAuth.instanceFor(app: secondaryApp);
         UserCredential userCredential = await auth
             .signInWithEmailAndPassword(
           email: email,
@@ -104,7 +97,7 @@ class Auth {
     }
   }
 
-  static bool _validateEmail(String email, double width) {
+  static bool validateEmail(String email, double width) {
     if (Validate.isValidEmail(email)) {
       return true;
     } else {

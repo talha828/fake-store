@@ -1,8 +1,7 @@
 import 'package:fake_store/constant/constant.dart';
 import 'package:fake_store/model/product_model.dart';
-import 'package:fake_store/view/product_detail_screen/product_details_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 
 class ProductCardView extends StatelessWidget {
   const ProductCardView(
@@ -20,7 +19,7 @@ class ProductCardView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return GestureDetector(
-      onTap: ()=>Get.to(ProductDetailScreen(product: product)),
+      // onTap: ()=>Get.to(ProductDetailScreen(product: product)),
       child: Container(
         padding:const EdgeInsets.symmetric(vertical: 15,),
         decoration: BoxDecoration(

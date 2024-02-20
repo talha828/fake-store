@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:fake_store/constant/constant.dart';
 import 'package:fake_store/firebase/auth.dart';
 import 'package:fake_store/generated/assets.dart';
+import 'package:fake_store/view/login_screen/login_screen.dart';
 import 'package:fake_store/widgets/fake_button.dart';
 import 'package:fake_store/widgets/faketextfield.dart';
 import 'package:fake_store/widgets/loading_indicator.dart';
@@ -53,8 +54,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       height: width * 0.04,
                     ),
                     Image.asset(
-                      Assets.imageWelcome,
+                      Assets.imageSignup,
                       height: width * 0.4,
+                      fit: BoxFit.fitHeight,
                     ),
                     SizedBox(
                       height: width * 0.1,
@@ -130,7 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           style: TextStyle(color: Colors.grey),
                         ),
                         InkWell(
-                          onTap: () => Get.to(const SignUpScreen()),
+                          onTap: () => Get.to(const LoginScreen()),
                           child: const Text(
                             "Sign In",
                             textAlign: TextAlign.right,

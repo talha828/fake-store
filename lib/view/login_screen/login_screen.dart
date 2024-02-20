@@ -1,10 +1,12 @@
 import 'package:fake_store/constant/constant.dart';
 import 'package:fake_store/firebase/auth.dart';
 import 'package:fake_store/generated/assets.dart';
+import 'package:fake_store/main.dart';
 import 'package:fake_store/view/sign_up_screen/sign_up_screen.dart';
 import 'package:fake_store/widgets/fake_button.dart';
 import 'package:fake_store/widgets/faketextfield.dart';
 import 'package:fake_store/widgets/loading_indicator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -23,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String labelText = "Email";
   bool obscureText = true;
   bool isLoading = false;
-  
+
   setLoading(bool value) {
     setState(() {
       isLoading = value;
@@ -85,28 +87,44 @@ class _LoginScreenState extends State<LoginScreen> {
                             onTap: () => setState(() {
                                   obscureText = obscureText ? false : true;
                                 }),
-                            child: FaIcon(obscureText
-                                ? FontAwesomeIcons.eye
-                                : FontAwesomeIcons.eyeSlash,size: width * 0.05,)),
+                            child: FaIcon(
+                              obscureText
+                                  ? FontAwesomeIcons.eye
+                                  : FontAwesomeIcons.eyeSlash,
+                              size: width * 0.05,
+                            )),
                       ),
                     ),
                     SizedBox(
                       height: width * 0.06,
                     ),
-                    //BTextField(controller: controller, hintText: "pass @11", labelText: "Password"),
-                    const Text(
-                      "Forget Password?",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(color: themeColorDart),
+                    GestureDetector(
+                      onTap: () => forgetPassword(width),
+                      child: const Text(
+                        "Forget Password?",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(color: themeColorDart),
+                      ),
                     ),
                     SizedBox(
                       height: width * 0.2,
                     ),
-                    FakeButton(onTap: ()=>Auth.login(email: email.text, password: password.text, width: width,setLoading:  (bool value){setState(() {isLoading=value;});}), width: width, title: "Login Now"),
+                    FakeButton(
+                        onTap: () => Auth.login(
+                            email: email.text,
+                            password: password.text,
+                            width: width,
+                            setLoading: (bool value) {
+                              setState(() {
+                                isLoading = value;
+                              });
+                            }),
+                        width: width,
+                        title: "Login Now"),
                     SizedBox(
                       height: width * 0.2,
                     ),
-                     Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
@@ -115,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: TextStyle(color: Colors.grey),
                         ),
                         InkWell(
-                          onTap: ()=> Get.to(const SignUpScreen()),
+                          onTap: () => Get.to(const SignUpScreen()),
                           child: const Text(
                             " SignUp",
                             textAlign: TextAlign.right,
@@ -137,5 +155,11 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void forgetPassword(double width) async{
+     Auth.validateEmail(email.text, width)
+        ? await auth.sendPasswordResetEmail(email: email.text).then((value) => Get.snackbar("Please Check Your Email", "Password reset link set to your email"))
+        : false;
   }
 }

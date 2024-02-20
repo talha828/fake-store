@@ -2,10 +2,10 @@ import 'package:fake_store/constant/constant.dart';
 import 'package:fake_store/controller/cart_controller.dart';
 import 'package:fake_store/controller/product_controller.dart';
 import 'package:fake_store/generated/assets.dart';
+import 'package:fake_store/main.dart';
 import 'package:fake_store/model/product_model.dart';
-import 'package:fake_store/view/edit_profile_screen/edit_profile_screen.dart';
-import 'package:fake_store/view/favorite_screen/favorite_screen.dart';
 import 'package:fake_store/view/login_screen/login_screen.dart';
+import 'package:fake_store/view/register_customer_screen/register_customer_screen.dart';
 import 'package:fake_store/widgets/product_card_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,7 +24,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final ProductController productController = Get.put(ProductController());
 
   final CartController cartController = Get.put(CartController());
-  FirebaseAuth auth = FirebaseAuth.instanceFor(app: Firebase.app('Fake Store'));
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +33,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
         iconTheme:const IconThemeData(color: Colors.white),
         centerTitle: true,
         backgroundColor: themeColorDart,
-        title: const Text('Products',style: TextStyle(color: Colors.white),),
+        title: const Text('Dashboard',style: TextStyle(color: Colors.white),),
+        actions: [
+          IconButton(onPressed: ()=> Get.to(const RegisterCustomerScreen()), icon:const Icon(Icons.add,))
+        ],
       ),
       drawer:  Drawer(
-
         child: ListView(
-          children: [
+          children:[
             DrawerHeader(
               padding: const EdgeInsets.symmetric(vertical: 5),
               decoration: const BoxDecoration(
@@ -66,12 +67,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ListTile(
               leading: const Icon(Icons.favorite),
               title: const Text('Favorite Product'),
-              onTap: ()=>Get.to(const FavoriteScreen())
+              // onTap: ()=>Get.to(const FavoriteScreen())
             ),
             ListTile(
               leading: const Icon(Icons.edit),
               title: const Text('Edit Profile'),
-              onTap: () =>Get.to(const EditProfileScreen())
+              // onTap: () =>Get.to(const EditProfileScreen())
             ),
 
             ListTile(
@@ -100,7 +101,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               itemCount: productController.productList.length,
               itemBuilder: (context, index) {
                 Product product = productController.productList[index];
-                return ProductCardView(product: product);
+                return Container();
               },
               separatorBuilder: (context,index){
                 return const SizedBox( height: 10,);
